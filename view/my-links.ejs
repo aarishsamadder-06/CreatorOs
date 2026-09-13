@@ -2,7 +2,7 @@
     activeNav: 'my-links', 
     title: 'My Links', 
     bodyClass: 'workspace-page links-page', 
-    bodyAttributes: "data-user='" + JSON.stringify({ name: typeof user !== 'undefined' ? user.name : 'User', initials: typeof user !== 'undefined' ? user.initials : 'U', preferences: typeof user !== 'undefined' ? user.preferences : {}, isGuestContributor: typeof isGuestContributor !== 'undefined' ? isGuestContributor : false }) + "' data-domain='" + (typeof domain !== 'undefined' ? domain : 'creatoros.com') + "' data-csrf='" + (typeof csrfToken !== 'undefined' ? csrfToken : '') + "'",
+    bodyAttributes: "data-user='" + JSON.stringify({ name: typeof user !== 'undefined' ? user.name : 'User', initials: typeof user !== 'undefined' ? user.initials : 'U', isGuestContributor: typeof isGuestContributor !== 'undefined' ? isGuestContributor : false }) + "' data-domain='" + (typeof domain !== 'undefined' ? domain : 'creatoros.com') + "' data-csrf='" + (typeof csrfToken !== 'undefined' ? csrfToken : '') + "'",
     extraHead: '<link rel="stylesheet" href="/css/my-links.css">'
 }) %>
             <section class="content">
@@ -233,17 +233,10 @@
     <script nonce="<%= nonce %>">
         const sidebarToggle = document.getElementById('sidebarToggle');
         const dashboardLayout = document.getElementById('dashboardLayout');
-        const themeToggle = document.getElementById('theme-toggle');
 
         if (sidebarToggle && dashboardLayout) {
             sidebarToggle.addEventListener('click', () => {
                 dashboardLayout.classList.toggle('sidebar-collapsed');
-            });
-        }
-
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
             });
         }
     </script>

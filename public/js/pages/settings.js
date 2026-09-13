@@ -306,7 +306,7 @@
         }
     });
 
-    document.getElementById('cancel-deletion-btn').addEventListener('click', async () => {
+    document.getElementById('cancel-deletion-btn')?.addEventListener('click', async () => {
         try {
             await apiRequest('/api/settings/account/cancel-deletion', { method: 'POST' });
             showToast('Account deletion cancelled');
