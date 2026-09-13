@@ -127,7 +127,7 @@
         localStorage.setItem('creatorosDensity', prefs.interfaceDensity || 'tactile');
         localStorage.setItem('creatorosMotion', String(!!prefs.motionEffects));
         localStorage.setItem('creatorosAutoSaveLinks', String(!!prefs.autoSaveLinks));
-        window.dispatchEvent(new Event('creatorosSettingsAppearanceChanged'));
+        window.dispatchEvent(new CustomEvent('creatorosPreferencesChanged', { detail: prefs }));
     }
 
     function updateHeaderProfile(name) {

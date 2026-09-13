@@ -53,6 +53,44 @@
             overflow-x: hidden;
         }
 
+        body.density-compact {
+            --density-space: 0.75rem;
+            --density-section-space: 1.25rem;
+        }
+
+        body.density-tactile {
+            --density-space: 1.25rem;
+            --density-section-space: 2rem;
+        }
+
+        body.no-motion *,
+        body.no-motion *::before,
+        body.no-motion *::after {
+            transition: none !important;
+            animation: none !important;
+            scroll-behavior: auto !important;
+        }
+
+        body.density-compact .topbar,
+        body.density-compact .content {
+            padding-top: var(--density-space);
+            padding-bottom: var(--density-space);
+        }
+
+        body.density-tactile .topbar,
+        body.density-tactile .content {
+            padding-top: var(--density-section-space);
+            padding-bottom: var(--density-section-space);
+        }
+
+        body.density-compact .sidebar-section {
+            gap: 0.25rem;
+        }
+
+        body.density-tactile .sidebar-section {
+            gap: 0.75rem;
+        }
+
         a {
             color: inherit;
             text-decoration: none;

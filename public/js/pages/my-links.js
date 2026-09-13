@@ -12,6 +12,44 @@
   const resultText = document.getElementById("result-text");
   const duplicateBanner = document.getElementById("duplicate-banner");
   const duplicateText = document.getElementById("duplicate-text");
+  const draftStorageKey = "creatorosLinkDraft";
+  let preferences = (() => {
+    try {
+      return JSON.parse(document.body.dataset.preferences || "{}");
+    } catch (_) {
+      return {};
+    }
+  })();
+
+  function playSoundCue() {
+    window.CreatorOSPreferences?.playSoundCue();
+  }
+
+  function saveDraft() {
+    if (!preferences.autoSaveLinks) {
+      localStorage.removeItem(draftStorageKey);
+      return;
+    }
+    const draft = {};
+    ["redirect-url", "custom-slug", "link-title", "link-tags", "link-expiry", "link-password"].forEach((id) => {
+      const input = document.getElementById(id);
+      if (input && input.value) draft[id] = input.value;
+    });
+    localStorage.setItem(draftStorageKey, JSON.stringify(draft));
+  }
+
+  function restoreDraft() {
+    if (!preferences.autoSaveLinks) return;
+    try {
+      const draft = JSON.parse(localStorage.getItem(draftStorageKey) || "{}");
+      Object.entries(draft).forEach(([id, value]) => {
+        const input = document.getElementById(id);
+        if (input && typeof value === "string") input.value = value;
+      });
+    } catch (_) {
+      localStorage.removeItem(draftStorageKey);
+    }
+  }
 
   // Initialize Zustag store
   const useStore = window.zustag.createStore((set, get) => ({
@@ -560,11 +598,18 @@
     document.getElementById("link-tags").value = "";
     document.getElementById("link-expiry").value = "";
     document.getElementById("link-password").value = "";
+    localStorage.removeItem(draftStorageKey);
 
     showToast("Short link created successfully!");
+    playSoundCue();
   }
 
   if (shortenForm) {
+    restoreDraft();
+    shortenForm.querySelectorAll("input, select").forEach((input) => {
+      input.addEventListener("input", saveDraft);
+      input.addEventListener("change", saveDraft);
+    });
     shortenForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       resetDuplicateBanner();
@@ -575,6 +620,11 @@
       }
     });
   }
+
+  window.addEventListener("creatorosPreferencesChanged", (event) => {
+    preferences = { ...preferences, ...(event.detail || {}) };
+    if (!preferences.autoSaveLinks) localStorage.removeItem(draftStorageKey);
+  });
 
   document
     .getElementById("duplicate-use-btn")

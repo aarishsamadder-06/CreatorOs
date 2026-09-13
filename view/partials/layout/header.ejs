@@ -17,7 +17,7 @@
         <%- extraHead %>
     <% } %>
 </head>
-<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>" <%- typeof bodyAttributes !== 'undefined' ? bodyAttributes : '' %>>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>" data-preferences='<%= JSON.stringify(typeof user !== 'undefined' && user.preferences ? user.preferences : {}) %>' <%- typeof bodyAttributes !== 'undefined' ? bodyAttributes : '' %>>
     <div class="dashboard-layout <%= typeof layoutClass !== 'undefined' ? layoutClass : '' %>">
         <%- include('./sidebar', { activeNav: typeof activeNav !== 'undefined' ? activeNav : 'dashboard' }) %>
         <main class="<%= typeof mainClass !== 'undefined' ? mainClass : 'main' %>" id="main-content" tabindex="-1">
